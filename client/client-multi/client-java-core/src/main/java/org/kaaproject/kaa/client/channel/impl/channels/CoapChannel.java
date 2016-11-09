@@ -201,7 +201,7 @@ public class CoapChannel implements KaaDataChannel {
     }
 
 
-    public CoapResponse SendData(String my_uri,String method,String payload )  // arg[0]=URI arg[1]=payload arg[2]=method
+    public CoapResponse SendData(String my_uri,String method,String payload ,String msg_type)  // arg[0]=URI arg[1]=payload arg[2]=method
     {
         LOG.info("this is SendData function!");
         URI uri = null; // URI parameter of the request
@@ -221,6 +221,11 @@ public class CoapChannel implements KaaDataChannel {
             LOG.info(" new coap client is registerd");
 
             CoapResponse response;
+            if(msg_type=="NON")
+                client.useNONs();
+            else
+                client.useCONs();
+
             if(method=="post") response=client.post(payload, MediaTypeRegistry.TEXT_PLAIN);
             else  response = client.get();
 
